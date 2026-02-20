@@ -84,3 +84,14 @@ Similar to Render, but you must add a special "buildpack" for OpenCV dependencie
 ## 🎯 Architecture Considerations for Production
 - **WebSockets:** Make sure your platform (e.g. Nginx on AWS EC2) supports persistent WebSocket connections, as the entire processing stream relies on WebSockets rather than REST API calls.
 - **CPU vs GPU:** The standard YOLOv8n model runs excellently on CPU. If you deploy this to a Serverless function (like AWS Lambda), WebSockets will timeout. You **MUST** deploy this as a persistent container/server (like an EC2 instance, Render Web Service, or DigitalOcean Droplet).
+
+---
+
+## 🚫 Why Not Vercel, Netlify, or AWS Lambda?
+While Vercel is fantastic for standard web apps and basic APIs, **it cannot host this specific application**. 
+This is because Vercel relies almost entirely on **Serverless Functions**, which have strict architectural limitations that conflict with real-time AI computer vision:
+1. **No WebSockets**: Serverless functions kill connections after a standard request-response cycle. They do not support the persistent, long-lived WebSocket connections that this application strictly requires to stream continuous video frames.
+2. **Missing System Libraries**: Platforms like Vercel do not allow you to install low-level Linux C++ rendering libraries (like `libgl1`), which are required by OpenCV to parse image matrices natively. 
+3. **Aggressive Timeouts**: Loading a PyTorch model into memory is heavy. Serverless functions spin down to "sleep" constantly. Every new user would trigger a "cold start," forcing the AI model to reload from scratch, which would almost certainly trigger Vercel's strict 10-second execution timeout.
+
+Because of this, you **must** use a persistent environment (like the Render or DigitalOcean docker setups) outlined above.
