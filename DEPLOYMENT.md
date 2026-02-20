@@ -13,7 +13,7 @@ Render natively reads your `requirements.txt` and `Procfile` and builds the envi
 5. Configuration:
    * **Name**: `ai-smart-focus` (or your choice)
    * **Environment**: `Python 3`
-   * **Build Command**: `pip install -r requirements.txt && apt-get update && apt-get install -y libgl1 libglib2.0-0` *(Note: Since Render instances need OpenCV UI libraries, we chain the apt-get inside the build command, or you can use Docker on Render).*
+   * **Build Command**: `pip install -r requirements.txt`
    * **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
    * **Plan**: Free or Starter
 6. Click **Create Web Service**. 
