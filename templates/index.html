@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Smart Auto Focus & Tracking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <main class="dashboard">
+        <header class="glass-header">
+            <h1>AI Smart Focus <span>Tracker</span></h1>
+            <div class="stats">
+                <div class="stat-box">
+                    <span>Target</span>
+                    <strong id="trackedClass" style="color: var(--accent-solid)">None</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Objects</span>
+                    <strong id="detectedCount">0</strong>
+                </div>
+                <div class="stat-box">
+                    <span>FPS</span>
+                    <strong id="fpsCounter">0</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Status</span>
+                    <strong id="systemStatus" class="status-offline">Offline</strong>
+                </div>
+            </div>
+        </header>
+
+        <section class="controls glass-panel">
+            <div class="control-group">
+                <h3>Source</h3>
+                <button id="btnWebcam" class="btn primary">Start Webcam</button>
+                <div class="upload-wrapper">
+                    <label for="videoUpload" class="btn secondary">Upload MP4</label>
+                    <input type="file" id="videoUpload" accept="video/mp4, video/webm">
+                </div>
+            </div>
+
+            <div id="videoControls" class="control-group hidden">
+                <h3>Playback</h3>
+                <button id="btnPlayPause" class="btn action">⏸ Pause Video</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Settings</h3>
+                <button id="btnToggleBlur" class="btn">Toggle Blur</button>
+                <button id="btnClearFocus" class="btn">Clear Focus</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Export</h3>
+                <button id="btnScreenshot" class="btn action">📸 Screenshot</button>
+                <button id="btnRecord" class="btn action">🔴 Record Video</button>
+            </div>
+
+            <div class="instructions">
+                <p>💡 <b>Tip:</b> Click on any object in the video to track it and blur the background.</p>
+            </div>
+        </section>
+
+        <section class="video-container glass-panel">
+            <!-- Hidden video element to read webcam/uploaded file -->
+            <video id="sourceVideo" autoplay playsinline muted style="display: none;"></video>
+
+            <!-- Canvas where we show the backend-processed stream -->
+            <div class="canvas-wrapper">
+                <canvas id="outputCanvas"></canvas>
+                <div id="loadingOverlay" class="loading-overlay hidden">
+                    <div class="spinner"></div>
+                    <p>Processing Video...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
